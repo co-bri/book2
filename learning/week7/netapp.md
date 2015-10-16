@@ -3,13 +3,16 @@
 Brian McKean, a senior engineer at NetApp, gave a talk about his company in class.
 He shared a data problem for our class to help solve.
 
+
+# I did not do the report since I brought in the data for the class
+
 # Tool
 Tableau
 
 # Authors
 
 This report is prepared by
-* [Full name](link to github account)
+* [Brian McKean](link to github account)
 * [Full name](link to github account)
 * [Full name](link to github account)
 * [Full name](link to github account)

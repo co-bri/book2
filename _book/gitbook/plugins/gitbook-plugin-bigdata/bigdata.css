@@ -1,0 +1,75 @@
+.json {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.console {
+    background-color: black;
+    color: white;
+    padding-left: 4px;
+    max-height: 300px;
+    overflow:auto;
+    font-size: 11px;
+    line-height: 1;
+    font-family: monospace;
+    white-space: pre;
+}
+
+.error {
+    padding: 5px;
+    font-size: 12px;
+    line-height: normal;
+    font-family: monospace;
+    white-space: pre;
+    background-color: lightcoral;
+}
+
+.lodashexercise {
+    border: 1px solid grey;
+    padding: 5px;
+}
+
+.lodashexercise .section-title {
+    margin-bottom: 0;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.ok {
+    padding: 5px;
+    background-color: lightgreen;
+}
+
+.output {
+    vertical-align:top;
+}
+
+.left {
+    top: 0px;
+    width: 50%;
+    vertical-align:top;
+    display: inline-block;
+}
+
+.right {
+    top: 0px;
+    width: 50%;
+    height: 100%;
+    vertical-align:top;
+    display: inline-block;
+}
+
+
+.githubapi .response {
+    max-height: 300px;
+    overflow:auto;
+    font-size: 11px;
+    line-height: 1;
+    font-family: monospace;
+    white-space: pre;
+}
+
+.githubapi .message{
+    font-weight:bold;
+    color: skyblue;
+}

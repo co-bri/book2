@@ -31,7 +31,7 @@ pokemonData = 'not loaded yet'
 $.get('/data/pokemon-small.json')
  .success(function(data){
      console.log('data loaded', data)
-     // TODO: show in the myviz that the data is loaded
+     $('.myviz').html('number of records load:' + data.length)
      pokemonData = data          
  })
 
@@ -59,7 +59,7 @@ function vizAsHorizontalBars(){
     }
 
     function computeWidth(d, i) {
-        return i * 20 + 50
+        return d.Attack
     }
 
     function computeY(d, i) {
@@ -98,6 +98,63 @@ $('button#viz-horizontal').click(vizAsHorizontalBars)
 
 // TODO: add code to visualize the attack points as a series
 // of vertical bars (without labels)
+function vizAsVerticalBars(){
+
+    // define a template string
+    var tplString = '<g transform="translate(${d.x} ${d.y})"> \
+                    <rect   \
+                         width="${d.width}" \
+                         height="${d.height}"    \
+                         style="fill:${d.color};    \
+                                stroke-width:3; \
+                                stroke:rgb(0,0,0)" />   \
+                    </g>'
+
+    // compile the string to get a template function
+    var template = _.template(tplString)
+
+    var maxAttack = _.max(_.pluck(pokemonData,"Attack"))
+    function computeX(d, i) {
+        return i * 20
+    }
+
+    function computeWidth(d, i) {
+        return 20
+    }
+
+    function computeY(d, i) {
+        return maxAttack - d.Attack
+    }
+
+    function computeHeight(d, i) {
+        return d.Attack 
+    }
+    function computeColor(d, i) {
+        return 'red'
+    }
+
+    var viz = _.map(pokemonData, function(d, i){
+                return {
+                    x: computeX(d, i),
+                    y: computeY(d, i),
+                    width: computeWidth(d, i),
+		    height: computeHeight(d,i),
+                    color: computeColor(d, i)
+                }
+             })
+    console.log('viz', viz)
+
+    var result = _.map(viz, function(d){
+             // invoke the compiled template function on each viz data
+             return template({d: d})
+         })
+    console.log('result', result)
+
+    $('.myviz').html('<svg>' + result + '</svg>')
+}
+
+$('button#viz-vertical').click(vizAsVerticalBars)
+
 
 // TODO: add code visualize the attack points vs. defense
 // points as side-by-side horizontal bar charts (with labels)
