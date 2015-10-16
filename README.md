@@ -1,3 +1,3 @@
 # book2
 
-Everything I've learend from the Big Data HCI course (Volume II).
+Everything I've learned from the Big Data HCI course (Volume II).

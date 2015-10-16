@@ -3,6 +3,9 @@
 Brian McKean from NetApp presented to the class a data analysis problem he'd
 like to get some help on.
 
+# This is Brian McKean's page: I did not do the report since I brought in the data for the class
+
+
 # Overview
 
 Listen to his presentation carefully. Write down the answers to the following

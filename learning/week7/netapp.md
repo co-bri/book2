@@ -4,7 +4,7 @@ Brian McKean, a senior engineer at NetApp, gave a talk about his company in clas
 He shared a data problem for our class to help solve.
 
 
-# I did not do the report since I brought in the data for the class
+# This is Brian McKean's page: I did not do the report since I brought in the data for the class
 
 # Tool
 Tableau
