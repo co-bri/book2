@@ -3,17 +3,19 @@
 Pick one question class and build an exploratory visualization interface for it.
 The question class you pick must have at least three variables that can be changed.
 
-## (Question class)
+## How many businesses are open on X day at Y hour?
+Show distribution over states
+
 
 <div style="border:1px grey solid; padding:5px;">
-    <div><h5>X</h5>
-        <input id="arg1" type="text" value="something"/>
+    <div><h5>Select day of the week</h5>
+        <input id="day" type="text" value="Monday"/>
     </div>
-    <div><h5>Y</h5>
-        <input id="arg2" type="text" value="something"/>
+    <div><h5>Select hour for being open (using xx:yy using 24 hour clock) </h5>
+        <input id="hour" type="text" value="13:00"/>
     </div>
-    <div><h5>Z</h5>
-        <input id="arg2" type="text" value="something"/>
+    <div><h5>Select sort order 'ascending' or 'descending'</h5>
+        <input id="order" type="text" value="ascending"/>
     </div>    
     <div style="margin:20px;">
         <button id="viz">Vizualize</button>
@@ -26,8 +28,6 @@ Data is not loaded yet
 
 {% script %}
 items = 'not loaded yet'
-
-console.log('lodash version:', _.VERSION)
 
 $.get('http://bigdatahci2015.github.io/data/yelp/yelp_academic_dataset_business.5000.json.lines.txt')
     .success(function(data){        
@@ -44,7 +44,7 @@ $.get('http://bigdatahci2015.github.io/data/yelp/yelp_academic_dataset_business.
          console.error(e)
      })
 
-function viz(arg1, arg2, arg3){    
+function viz(day, hour, order){    
 
     // define a template string
     var tplString = '<g transform="translate(0 ${d.y})"> \
@@ -65,7 +65,7 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeWidth(d, i) {        
-        return i * 20 + 20
+        return d[1]/max * 600
     }
 
     function computeY(d, i) {
@@ -77,14 +77,62 @@ function viz(arg1, arg2, arg3){
     }
 
     function computeLabel(d, i) {
-        return 'f' + i
+        return d[0]
     }
 
-    // TODO: modify the logic here based on your UI
-    // take the first 20 items to visualize    
-    items = _.take(items, 20)
+    // Convert hour string to int
+    function hourToInt(h) {
+        var x = h.split(':')
+        return x[0] * 3600 + x[1] * 60
+    }
 
-    var viz = _.map(items, function(d, i){                
+    // The input hour as an integer
+    var hourAsInt = hourToInt(hour)
+    console.log('hour', hour)
+
+    // First filter all entries for the specified day and time
+    open = _.filter(items, function(d) {
+        return d.hours && d.hours[day] &&
+            (hourToInt(d.hours[day].open) <= hourAsInt &&
+             hourAsInt <= hourToInt(d.hours[day].close))
+        })
+
+    // Next group by state
+    var groups = _.groupBy(open, 'state')
+
+    // Take groups and attach counts to stat
+    var counts = _.mapValues(groups, function(d){
+	l = d.length
+        return l
+    })
+    console.log(counts)
+    
+    countByState = _.pairs(counts)
+
+    console.log(countByState)
+
+    sortedStates = _.sortBy(countByState,function(d){
+	if (order == 'ascending'){
+		return d[1]
+	}
+	else{
+		return -d[1]
+	}
+
+    })
+    console.log(sortedStates)
+
+    max = (_.max(countByState, function(d){
+	return d[1]
+
+    }))[1]
+    
+    console.log('max',max)
+ 
+    // take the first 20 items to visualize    
+    show = _.take(sortedStates,20 )
+
+    var viz = _.map(show, function(d, i){                
                 return {
                     x: computeX(d, i),
                     y: computeY(d, i),
@@ -105,19 +153,22 @@ function viz(arg1, arg2, arg3){
 }
 
 $('button#viz').click(function(){    
-    var arg1 = 'TODO'
-    var arg2 = 'TODO'
-    var arg3 = 'TODO'    
-    viz(arg1, arg2, arg3)
-})  
+    var day = $('input#day').val()
+    var hour = $('input#hour').val()
+    var order = $('input#order').val()  
+    console.log(day,hour,order)
+    viz(day, hour, order)
+})
+
+
 
 {% endscript %}
 
 # Authors
 
 This UI is developed by
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
-* [Full name](link to github account)
+* [Brian McKean](http://co-bri.github.io/book2)
+* [Karen Blakemore](https://github.com/kjblakemore/book2)
+* [Ming Leiw](http://malaokia.github.io/book2/)
+* [Matt Schroeder](http://mattschroeder97.github.io/book2)
+
