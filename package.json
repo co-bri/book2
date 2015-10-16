@@ -1,0 +1,30 @@
+{
+  "name": "book2",
+  "version": "1.0.0",
+  "description": "What I've done and learned from the Big Data HCI course (II)",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "chai": "^3.2.0",
+    "gitbook-plugin-bigdata": "^1.1.0",
+    "gitbook-plugin-toggle-chapters": "^0.0.3",
+    "highlight": "^0.2.3",
+    "jade": "^1.11.0",
+    "lodash": "^3.10.1",
+    "request": "^2.61.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigdatahci2015/book2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bigdatahci2015/book2/issues"
+  },
+  "homepage": "https://github.com/bigdatahci2015/book2"
+}
