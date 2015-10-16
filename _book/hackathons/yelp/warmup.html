@@ -68,7 +68,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="2.2.1" data-basepath="../.." data-revision="Fri Oct 16 2015 14:19:38 GMT-0600 (MDT)">
+    <div class="book" data-level="2.2.1" data-basepath="../.." data-revision="Fri Oct 16 2015 16:34:02 GMT-0600 (MDT)">
     
 
 <div class="book-summary">
@@ -528,14 +528,28 @@ function viz(arg1, arg2, arg3){
 
     // TODO: group items based on the attribute specified by users
 
-    var groups = _.groupBy(items, &apos;stars&apos;)
+    var groups = _.groupBy(items, arg1)
     console.log(&apos;groups&apos;, groups)
 
     var pairs = _.pairs(groups)
 
     // TODO: sort pairs in the order specified by users
 
-    var viz = _.map(pairs, function(d, i){                
+    var sortOrder  = 1
+    if (arg2 != &apos;ascending&apos;)
+    {
+	sortOrder = -1
+
+    }	
+
+    console.log(sortOrder)
+    console.log(arg1)
+    console.log(arg2)
+    pairsSorted = _.sortBy(pairs, function(d, i) {
+    	return d[1].length * sortOrder
+    	})
+
+    var viz = _.map(pairsSorted, function(d, i){                
                 return {
                     x: computeX(d, i),
                     y: computeY(d, i),
@@ -556,11 +570,12 @@ function viz(arg1, arg2, arg3){
 }
 
 $(&apos;button#viz&apos;).click(function(){    
-    var arg1 = &apos;TODO&apos;
-    var arg2 = &apos;TODO&apos;
-    var arg3 = &apos;TODO&apos;    
-    viz(arg1, arg2, arg3)
-})</code></pre><script>var code ="items = 'not loaded yet'\n\n$.get('http://bigdatahci2015.github.io/data/yelp/yelp_academic_dataset_business.5000.json.lines.txt')\n    .success(function(data){        \n        var lines = data.trim().split('\\n')\n\n        // convert text lines to json arrays and save them in `items`\n        items = _.map(lines, JSON.parse)\n\n        console.log('number of items loaded:', items.length)\n\n        console.log('first item', items[0])\n     })\n     .error(function(e){\n         console.error(e)\n     })\n\nfunction viz(arg1, arg2, arg3){    \n\n    // define a template string\n    var tplString = '<g transform=\"translate(0 ${d.y})\"> \\\n                    <text y=\"20\">${d.label}</text> \\\n                    <rect x=\"30\"   \\\n                         width=\"${d.width}\" \\\n                         height=\"20\"    \\\n                         style=\"fill:${d.color};    \\\n                                stroke-width:3; \\\n                                stroke:rgb(0,0,0)\" />   \\\n                    </g>'\n\n    // compile the string to get a template function\n    var template = _.template(tplString)\n\n    function computeX(d, i) {\n        return 0\n    }\n\n    function computeWidth(d, i) {        \n        return d[1].length / 2\n    }\n\n    function computeY(d, i) {\n        return i * 20\n    }\n\n    function computeColor(d, i) {\n        return 'red'\n    }\n\n    // TODO: group items based on the attribute specified by users\n\n    var groups = _.groupBy(items, 'stars')\n    console.log('groups', groups)\n\n    var pairs = _.pairs(groups)\n\n    // TODO: sort pairs in the order specified by users\n\n    var viz = _.map(pairs, function(d, i){                \n                return {\n                    x: computeX(d, i),\n                    y: computeY(d, i),\n                    width: computeWidth(d, i),\n                    color: computeColor(d, i),\n                    label: d[0]\n                }\n             })\n    console.log('viz', viz)\n\n    var result = _.map(viz, function(d){\n             // invoke the compiled template function on each viz data\n             return template({d: d})\n         })\n    console.log('result', result)\n\n    $('.myviz').html('<svg width=\"100%\" height=\"100%\">' + result + '</svg>')\n}\n\n$('button#viz').click(function(){    \n    var arg1 = 'TODO'\n    var arg2 = 'TODO'\n    var arg3 = 'TODO'    \n    viz(arg1, arg2, arg3)\n})"</script></p>
+    var arg1 = $(&apos;input#arg1&apos;).val()
+    var arg2 = $(&apos;input#arg2&apos;).val()
+    console.log(arg1)
+    console.log(arg2)
+    viz(arg1, arg2)
+})</code></pre><script>var code ="items = 'not loaded yet'\n\n$.get('http://bigdatahci2015.github.io/data/yelp/yelp_academic_dataset_business.5000.json.lines.txt')\n    .success(function(data){        \n        var lines = data.trim().split('\\n')\n\n        // convert text lines to json arrays and save them in `items`\n        items = _.map(lines, JSON.parse)\n\n        console.log('number of items loaded:', items.length)\n\n        console.log('first item', items[0])\n     })\n     .error(function(e){\n         console.error(e)\n     })\n\nfunction viz(arg1, arg2, arg3){    \n\n    // define a template string\n    var tplString = '<g transform=\"translate(0 ${d.y})\"> \\\n                    <text y=\"20\">${d.label}</text> \\\n                    <rect x=\"30\"   \\\n                         width=\"${d.width}\" \\\n                         height=\"20\"    \\\n                         style=\"fill:${d.color};    \\\n                                stroke-width:3; \\\n                                stroke:rgb(0,0,0)\" />   \\\n                    </g>'\n\n    // compile the string to get a template function\n    var template = _.template(tplString)\n\n    function computeX(d, i) {\n        return 0\n    }\n\n    function computeWidth(d, i) {        \n        return d[1].length / 2\n    }\n\n    function computeY(d, i) {\n        return i * 20\n    }\n\n    function computeColor(d, i) {\n        return 'red'\n    }\n\n    // TODO: group items based on the attribute specified by users\n\n    var groups = _.groupBy(items, arg1)\n    console.log('groups', groups)\n\n    var pairs = _.pairs(groups)\n\n    // TODO: sort pairs in the order specified by users\n\n    var sortOrder  = 1\n    if (arg2 != 'ascending')\n    {\n\tsortOrder = -1\n\n    }\t\n\n    console.log(sortOrder)\n    console.log(arg1)\n    console.log(arg2)\n    pairsSorted = _.sortBy(pairs, function(d, i) {\n    \treturn d[1].length * sortOrder\n    \t})\n\n    var viz = _.map(pairsSorted, function(d, i){                \n                return {\n                    x: computeX(d, i),\n                    y: computeY(d, i),\n                    width: computeWidth(d, i),\n                    color: computeColor(d, i),\n                    label: d[0]\n                }\n             })\n    console.log('viz', viz)\n\n    var result = _.map(viz, function(d){\n             // invoke the compiled template function on each viz data\n             return template({d: d})\n         })\n    console.log('result', result)\n\n    $('.myviz').html('<svg width=\"100%\" height=\"100%\">' + result + '</svg>')\n}\n\n$('button#viz').click(function(){    \n    var arg1 = $('input#arg1').val()\n    var arg2 = $('input#arg2').val()\n    console.log(arg1)\n    console.log(arg2)\n    viz(arg1, arg2)\n})"</script></p>
 
                     
                     </section>
@@ -618,13 +633,9 @@ $(&apos;button#viz&apos;).click(function(){
     <script src="../../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
     
 
-    
-    <script src="../../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
-    
-
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"bigdata":{},"toggle-chapters":{},"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"livereload":{}};
+    var config = {"bigdata":{},"toggle-chapters":{},"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>
